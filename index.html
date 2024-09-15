@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Price Prediction</title>
+</head>
+<body>
+    <h2>House Price Prediction</h2>
+    <form id="prediction-form">
+        <label for="CRIM">CRIM:</label><br>
+        <input type="text" id="CRIM" name="CRIM"><br>
+        <label for="ZN">ZN:</label><br>
+        <input type="text" id="ZN" name="ZN"><br>
+        <label for="INDUS">INDUS:</label><br>
+        <input type="text" id="INDUS" name="INDUS"><br>
+        <label for="CHAS">CHAS:</label><br>
+        <input type="text" id="CHAS" name="CHAS"><br>
+        <label for="NOX">NOX:</label><br>
+        <input type="text" id="NOX" name="NOX"><br>
+        <label for="RM">RM:</label><br>
+        <input type="text" id="RM" name="RM"><br>
+        <label for="AGE">AGE:</label><br>
+        <input type="text" id="AGE" name="AGE"><br>
+        <label for="DIS">DIS:</label><br>
+        <input type="text" id="DIS" name="DIS"><br>
+        <label for="RAD">RAD:</label><br>
+        <input type="text" id="RAD" name="RAD"><br>
+        <label for="TAX">TAX:</label><br>
+        <input type="text" id="TAX" name="TAX"><br>
+        <label for="PTRATIO">PTRATIO:</label><br>
+        <input type="text" id="PTRATIO" name="PTRATIO"><br>
+        <label for="B">B:</label><br>
+        <input type="text" id="B" name="B"><br>
+        <label for="LSTAT">LSTAT:</label><br>
+        <input type="text" id="LSTAT" name="LSTAT"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('prediction-form').onsubmit = async function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `Predicted price: ${result.prediction}`;
+        };
+    </script>
+</body>
+</html>
